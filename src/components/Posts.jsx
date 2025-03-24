@@ -20,7 +20,7 @@ function Posts() {
 
   const handleDisLike = (id) => {
     const newPosts = posts.map((post) => {
-      if (post.id === id) {
+      if (post.id === id && post.likes > 0) {
         return { ...post, likes: post.likes - 1 };
       }
       return post;
