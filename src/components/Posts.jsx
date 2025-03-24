@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {postData} from '../raw-data/post-data';
 function Posts() {
   const [posts, setPosts] = useState([]);
-  const [likes, setLikes] = useState(0);
 
   useEffect(() => 
   {
