@@ -1,28 +1,46 @@
+import { useState } from "react";
+import {postData} from "../raw-data/post-data"
+
+
 function Posts() {
+  const [posts, setPosts] = useState(postData)
+
+  function handleLike(id){
+    const newPosts = posts.map((post) => post.id === id ? {...post, likes: post.likes+1} : {...post})
+    setPosts(newPosts)
+  }
+
+  function handleDisLike(id){
+    const newPosts = posts.map((post)=> ((post.id===id && post.likes>0) ? 
+      {...post, likes: post.likes-1} : post))
+    setPosts(newPosts)
+  }
+
+
   return (
     <div class="app-wrapper">
       <h1 class="app-title">Posts</h1>
       <div class="post-list">
-        <div class="post-item">
-          <div class="post-header">
-            <h2>Post Title #1</h2>
-            <div class="post-social-media-stats">
-              <span class="stats-topic">Likes: </span>
-              <span class="post-likes">10</span>
+      {posts.map((post)=>{
+        return(
+          <div class="post-item" key={post.id}>
+            <div class="post-header">
+              <h2>Post Title #{post.id}</h2>
+              <div class="post-social-media-stats">
+                <span class="stats-topic">Likes: </span>
+                <span class="post-likes">{post.likes}</span>
+              </div>
+            </div>
+            <p class="post-content">
+              {post.content}
+            </p>
+            <div class="post-actions">
+              <button class="like-button" onClick={()=>handleLike(post.id)}>Like</button>
+              <button class="dislike-button" onClick={()=>handleDisLike(post.id)}>Dislike</button>
             </div>
           </div>
-          <p class="post-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            vel turpis vestibulum, aliquet ipsum vitae, auctor risus. Morbi
-            tincidunt, leo non molestie consectetur, elit libero faucibus
-            tellus, sed fringilla tortor libero sit amet odio. Maecenas sed ante
-            condimentum mauris euismod pellentesque eu eu justo...
-          </p>
-          <div class="post-actions">
-            <button class="like-button">Like</button>
-            <button class="dislike-button">Dislike</button>
-          </div>
-        </div>
+        )
+      })}
       </div>
     </div>
   );
